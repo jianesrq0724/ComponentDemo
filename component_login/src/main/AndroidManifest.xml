@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="com.ecaray.login">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.ecaray.login">
 
 
     <application
@@ -11,7 +11,7 @@
 
         <activity
             android:name=".LoginActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
     </application>
 

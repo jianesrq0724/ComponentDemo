@@ -12,7 +12,7 @@
         tools:replace="android:label">
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".LoginBaseActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

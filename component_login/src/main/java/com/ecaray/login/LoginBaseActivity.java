@@ -22,8 +22,8 @@ import com.luojilab.router.facade.annotation.RouteNode;
  * @version 1.0
  * @since 2018/3/11
  */
-@RouteNode(path = RouterUri.LOGIN_PATH, desc = "登录页面")
-public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginViewI {
+
+public class LoginBaseActivity extends BaseActivity<LoginPresenter> implements LoginViewI {
 
     private EditText mLoginUserNameEt;
     private EditText mLoginUserPwEt;
