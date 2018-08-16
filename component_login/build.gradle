@@ -1,0 +1,50 @@
+apply plugin: 'com.dd.comgradle'
+apply from: rootProject.file('productflavor/flavorable-all.gradle')
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        multiDexEnabled true
+        versionCode 1
+        versionName "1.0.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [host: "login"]
+            }
+        }
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+
+    implementation project(':basic_service')
+    annotationProcessor 'com.luojilab.ddcomponent:router-anno-compiler:1.0.0'
+}
+
+combuild {
+    applicationName = 'com.ecaray.login.runalone.application.LoginApplication'
+    isRegisterCompoAuto = true
+}
+

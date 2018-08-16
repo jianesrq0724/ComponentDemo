@@ -1,0 +1,81 @@
+apply plugin: 'com.dd.comgradle'
+apply from: rootProject.file('productflavor/flavorable-all.gradle')
+
+/**采用解析Properties文件获取签名信息的方式，把签名放进版本控制不是明智的做法*/
+Properties props = new Properties()
+props.load(new FileInputStream(file("signing.properties")))
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+
+    //签名配置
+    signingConfigs {
+        config {
+            keyAlias props['KEY_ALIAS']
+            keyPassword props['KEY_PASSWORD']
+            storeFile file(props['KEYSTORE_FILE'])
+            storePassword props['KEYSTORE_PASSWORD']
+        }
+    }
+
+    defaultConfig {
+        applicationId "com.szchmtech.eparkpda"
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode 1
+        versionName "1.0.0"
+        signingConfig signingConfigs.config
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        //让32位编译的.so文件能运行在64位的手机上（前提代码支持64位）
+        ndk {
+            abiFilters "armeabi-v7a"
+        }
+
+        buildConfigField "String", "BUGLY_APP_ID", '"84dea3a272"'
+
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [host: "app"]
+            }
+        }
+    }
+    flavorDimensions "default"
+    productFlavors {
+        jishou {
+            applicationIdSuffix ".jssv"
+        }
+
+        xuzhou {
+            applicationIdSuffix ".xzsv"
+        }
+    }
+    /*为apk自动替换生成新名字，格式如： [項目名]_[test/release]_[version]_[date].apk*/
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "pda-${variant.name}-v${variant.versionName}.apk"
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+            assets.srcDirs = ['assets']
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':basic_service')
+    annotationProcessor 'com.luojilab.ddcomponent:router-anno-compiler:1.0.0'
+}
+
+combuild {
+    applicationName = 'com.ecaray.pda_xj.application.AppApplication'
+    isRegisterCompoAuto = true
+}

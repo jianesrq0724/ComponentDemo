@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_theme"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/app_version_tv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="right"
+        android:padding="20dp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_18_dimens" />
+
+    <TextView
+        android:id="@+id/title_park"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="分享组件"
+        android:textColor="@color/white"
+        android:textSize="40sp" />
+
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+
+</LinearLayout>

@@ -1,0 +1,118 @@
+android {
+
+    buildTypes {
+        //开发环境
+        develop {
+            matchingFallbacks = ['debug']
+            debuggable true
+            minifyEnabled false
+            shrinkResources false
+            buildConfigField "String", "APP_ID", '"111001 110000 110100 110000 110111 110101 110001 110000 110010"'
+            buildConfigField "String", "REQUEST_KEY", '"1000100 110011 110000 110010 111001 1000011 110111 110011 110100 110000 110110 110010 110010 110001 1000010 110000 110010 110000 110010 110110 1000010 110110 111000 110100 1000010 1000010 110000 110000 110101 110111 111001 1000011"'
+            buildConfigField "String", "Url_Common", '"http://192.168.9.220:7090"'
+            buildConfigField "String", "Url_DwonUp", '"http://192.168.9.220:7090"'
+            buildConfigField "int", "URL_TYPE", "0"
+            //是否需要本地异常日志
+            buildConfigField "boolean", "IS_CRASH", "false"
+        }
+
+        //测试环境
+        experiment {
+            matchingFallbacks = ['debug']
+            debuggable true
+            shrinkResources false
+            buildConfigField "String", "APP_ID", '"111000 111000 110011 110101 110011 110011 110111 110000 110011"'
+            buildConfigField "String", "REQUEST_KEY", '"1000100 110011 110000 110010 111001 1000011 110111 110011 110100 110000 110110 110010 110010 110001 1000010 110000 110010 110000 110010 110110 1000010 110110 111000 110100 1000010 1000010 110000 110000 110101 110111 111001 1000011"'
+            buildConfigField "int", "URL_TYPE", "1"
+            def
+//          eInnerUrl = '"http://192.168.9.124:7091"'
+//          eInnerUrl = '"http://www.szkljy.com:16082"'
+            //徐州
+//            eInnerUrl = '"http://192.168.9.103:8014"'
+            //吉首
+                    eInnerUrl = '"http://192.168.9.103:8016"'
+            buildConfigField "String", "Url_Common", eInnerUrl
+            buildConfigField "String", "Url_DwonUp", eInnerUrl
+            //是否开启内存泄漏检测等开发lib
+            buildConfigField "boolean", "IS_TEST_CODE", "true"
+            //是否需要本地异常日志
+            buildConfigField "boolean", "IS_CRASH", "true"
+
+            if (SERVER_URL_EXPERIMENT.toString().length() > 8) {
+                eInnerUrl = SERVER_URL_EXPERIMENT
+            }
+            println("TEST_SERVER_URL_1_".plus(eInnerUrl).plus("_xxxxxx"))
+
+            if (EXPERIMENT_APPID.toString().length() > 4) {
+                buildConfigField "String", "APP_ID", strToBinarystr(EXPERIMENT_APPID).toString()
+                println("EXPERIMENT_APPID ".plus(strToBinarystr(EXPERIMENT_APPID).toString()))
+            }
+            if (EXPERIMENT_REQUEST_KEY.toString().length() > 4) {
+                buildConfigField "String", "REQUEST_KEY", strToBinarystr(EXPERIMENT_REQUEST_KEY).toString()
+                println("EXPERIMENT_REQUEST_KEY ".plus(strToBinarystr(EXPERIMENT_REQUEST_KEY).toString()))
+            }
+        }
+
+        //不混淆的测试包
+        experimentNotMinify.initWith(buildTypes.experiment)
+        experimentNotMinify {
+            def isMinifyEnabled = false;//混淆（打正式包）
+            debuggable true
+            minifyEnabled isMinifyEnabled
+            zipAlignEnabled isMinifyEnabled
+            shrinkResources isMinifyEnabled
+        }
+
+        debug {
+            signingConfig signingConfigs.debug
+            debuggable true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //是否需要本地异常日志
+            buildConfigField "boolean", "IS_CRASH", "false"
+        }
+    }
+
+    flavorDimensions "default"
+    productFlavors {
+
+        jishou {
+            versionCode 1
+            versionName "1.0.0"
+            manifestPlaceholders = [BAIDU_API_KEY: "4F8IwKwk1EyFiZFuYlXooKSV1lNbgdvx"]
+            buildConfigField "String", "Url_Common", '"http://192.168.9.103:8016"'
+            buildConfigField "String", "Url_DwonUp", '"http://192.168.9.103:8016"'
+            buildConfigField "String", "APP_ID", '"111000 111000 110011 110101 110011 110011 110111 110000 110011"'
+            buildConfigField "String", "REQUEST_KEY", '"1000100 110011 110000 110010 111001 1000011 110111 110011 110100 110000 110110 110010 110010 110001 1000010 110000 110010 110000 110010 110110 1000010 110110 111000 110100 1000010 1000010 110000 110000 110101 110111 111001 1000011"'
+            buildConfigField "int", "URL_TYPE", "2"
+        }
+
+        xuzhou {
+            versionCode 1
+            versionName "1.0.0"
+            manifestPlaceholders = [BAIDU_API_KEY: "DCFxn6VGmKoalwKUrKfOIbjKMN8u3PR1"]
+            buildConfigField "String", "Url_Common", '"http://192.168.9.103:8016"'
+            buildConfigField "String", "Url_DwonUp", '"http://192.168.9.103:8016"'
+            buildConfigField "String", "APP_ID", '"111000 111000 110011 110101 110011 110011 110111 110000 110011"'
+            buildConfigField "String", "REQUEST_KEY", '"1000100 110011 110000 110010 111001 1000011 110111 110011 110100 110000 110110 110010 110010 110001 1000010 110000 110010 110000 110010 110110 1000010 110110 111000 110100 1000010 1000010 110000 110000 110101 110111 111001 1000011"'
+            buildConfigField "int", "URL_TYPE", "2"
+        }
+
+    }
+
+}
+
+// 将字符串转换成二进制字符串，以空格相隔
+def strToBinarystr(String str) {
+    println "strToBinarystr ".plus(str.toString())
+    char[] strChar = str.toCharArray();
+    StringBuilder result = new StringBuilder();
+    int len = strChar.length;
+    result.append("\"")
+    for (int i = 0; i < len; i++) {
+        int value = strChar[i];
+        println "strToBinarystr ".plus(value)
+        result.append(Integer.toBinaryString(value).plus(" "));
+    }
+    return result.toString().trim().plus("\"");
+}
